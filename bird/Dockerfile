@@ -6,7 +6,6 @@ WORKDIR /app
 
 # Copy go.mod and go.sum files
 COPY go.mod ./
-# COPY go.sum ./
 
 # Download dependencies
 RUN go mod download
@@ -17,8 +16,8 @@ COPY . .
 # Build the bird API
 RUN go build -o bird-api .
 
-# Use a minimal image for the final deployment
-FROM alpine:v.1.0.0
+# Use the latest minimal Alpine image for the final deployment
+FROM alpine:latest
 
 WORKDIR /root/
 COPY --from=builder /app/bird-api .
