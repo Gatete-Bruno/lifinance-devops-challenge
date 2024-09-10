@@ -18,7 +18,7 @@ COPY . .
 RUN go build -o bird-api .
 
 # Use a minimal image for the final deployment
-FROM alpine:latest
+FROM alpine:v.1.0.0
 
 WORKDIR /root/
 COPY --from=builder /app/bird-api .
