@@ -24,22 +24,27 @@ resource "aws_security_group" "k8s_sg" {
 }
 
 resource "aws_instance" "k8s_nodes" {
-  ami           = "ami-0dba2cb6798deb6d8"  # Ubuntu 20.04
+  ami           = "ami-0a5c3558529277641"  # Amazon Linux 2 AMI (64-bit x86)
   instance_type = "t3.medium"
   count         = 3  # Three EC2 nodes for Kubernetes cluster
 
-  security_groups = [aws_security_group.k8s_sg.name]
+  vpc_security_group_ids = [aws_security_group.k8s_sg.id]  # Use security group ID here
+  subnet_id              = aws_subnet.public.id  # Ensure it uses the public subnet
 
   user_data = <<-EOF
     #!/bin/bash
     # Install Docker
-    apt-get update
-    apt-get install -y docker.io
+    yum update -y
+    amazon-linux-extras install docker -y
+    service docker start
+    usermod -a -G docker ec2-user
 
     # Install Kubernetes tools
-    apt-get install -y kubelet kubeadm kubectl
+    curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+    chmod +x ./kubectl
+    mv ./kubectl /usr/local/bin/kubectl
 
-    # Disable swap
+    # Disable swap (required for Kubernetes)
     swapoff -a
 
     # Initialize the cluster (on master node)
