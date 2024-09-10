@@ -1,26 +1,47 @@
-# syntax=docker/dockerfile:1
-FROM golang:1.22-alpine AS builder
+name: CI/CD for Bird APIs
 
-# Set the working directory
-WORKDIR /app
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
-# Copy go.mod and go.sum files
-COPY go.mod ./
-# COPY go.sum ./
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
-# Download dependencies
-RUN go mod download
+    services:
+      docker:
+        image: docker:20.10.7
+        options: --privileged
+        ports:
+          - 2375:2375
+        env:
+          DOCKER_HOST: tcp://localhost:2375
 
-# Copy the rest of the application code
-COPY . .
+    steps:
+      # Step 1: Checkout the code
+      - name: Checkout Code
+        uses: actions/checkout@v2
 
-# Build the birdImage API
-RUN go build -o bird-image-api .
+      # Step 2: Set up Docker Buildx
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
 
-# Use a minimal image for the final deployment
-FROM alpine:v.1.0.0
+      # Step 3: Log into Docker Hub
+      - name: Log into Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD_SYMBOLS_ALLOWED }}" | docker login --username "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-WORKDIR /root/
-COPY --from=builder /app/bird-image-api .
-CMD ["./bird-image-api"]
-EXPOSE 4200
+      # Step 4: Build and push bird API image
+      - name: Build and Push Bird API Docker Image
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/bird-api:latest ./bird
+          docker push ${{ secrets.DOCKER_USERNAME }}/bird-api:latest
+
+      # Step 5: Build and push birdImage API image
+      - name: Build and Push BirdImage API Docker Image
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/bird-image-api:latest ./birdImage
+          docker push ${{ secrets.DOCKER_USERNAME }}/bird-image-api:latest
