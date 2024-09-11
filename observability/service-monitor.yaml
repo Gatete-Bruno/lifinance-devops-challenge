@@ -1,0 +1,25 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: bird-api-monitor
+  namespace: monitoring
+spec:
+  selector:
+    matchLabels:
+      app: bird-api
+  endpoints:
+  - port: http
+    path: /metrics
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: bird-image-api-monitor
+  namespace: monitoring
+spec:
+  selector:
+    matchLabels:
+      app: bird-image-api
+  endpoints:
+  - port: http
+    path: /metrics

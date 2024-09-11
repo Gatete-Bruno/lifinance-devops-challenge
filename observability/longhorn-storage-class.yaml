@@ -3,4 +3,4 @@ kind: StorageClass
 metadata:
   name: longhorn
 provisioner: driver.longhorn.io
-volumeBindingMode: WaitForFirstConsumer
+volumeBindingMode: Immediate
