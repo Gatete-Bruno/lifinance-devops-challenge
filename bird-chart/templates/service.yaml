@@ -1,11 +1,9 @@
-# for bird-api-service and bird-image-service
-
 apiVersion: v1
 kind: Service
 metadata:
   name: {{ .Release.Name }}-bird-api-service
   labels:
-    app: {{ .Release.Name }}-bird-api-service
+    app: {{ .Release.Name }}-bird-api
 spec:
   type: NodePort
   ports:
@@ -20,7 +18,7 @@ kind: Service
 metadata:
   name: {{ .Release.Name }}-bird-image-api-service
   labels:
-    app: {{ .Release.Name }}-bird-image-api-service
+    app: {{ .Release.Name }}-bird-image-api
 spec:
   type: NodePort
   ports:
@@ -29,18 +27,3 @@ spec:
       nodePort: {{ .Values.birdImageApi.nodePort }}
   selector:
     app: {{ .Release.Name }}-bird-image-api
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{ include "bird-chart.fullname" . }}
-  labels:
-    {{- include "bird-chart.labels" . | nindent 4 }}
-spec:
-  type: {{ .Values.service.type }}
-  ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
-      protocol: TCP
-      name: http
-  selector:
-    {{- include "bird-chart.selectorLabels" . | nindent 4 }}

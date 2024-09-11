@@ -8,7 +8,7 @@ birdApi:
 birdImageApi:
   image: "bruno74t/bird-image-api:v.1.0.1"
   replicas: 2
-  nodePort: 31193
+  nodePort: 31708
 
 service:
   type: NodePort
