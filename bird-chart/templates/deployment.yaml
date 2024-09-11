@@ -17,6 +17,7 @@ spec:
       containers:
         - name: bird-api
           image: {{ .Values.birdApi.image }}
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 4201
 ---
@@ -39,5 +40,6 @@ spec:
       containers:
         - name: bird-image-api
           image: {{ .Values.birdImageApi.image }}
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 4200
