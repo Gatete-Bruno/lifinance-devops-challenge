@@ -24,7 +24,7 @@ func defaultBird(err error) Bird {
 }
 
 func getBirdImage(birdName string) (string, error) {
-	res, err := http.Get(fmt.Sprintf("http://bird-image-service:80/?birdName=%s", url.QueryEscape(birdName)))
+	res, err := http.Get(fmt.Sprintf("http://bird-api-release-bird-image-api-service:80/?birdName=%s", url.QueryEscape(birdName)))
 	if err != nil {
 		return "", err
 	}
