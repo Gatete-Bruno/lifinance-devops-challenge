@@ -4,7 +4,7 @@ This repository contains two APIs, `bird` and `birdImage`, which are Dockerized 
 
 For detailed documentation and a step-by-step guide, please check out the accompanying blog post:
 
-[Read the Blog](https://gatete.hashnode.dev/bird-api-written-in-golang-code-to-containerization-cicd-pipelines-deployed-aws-infra-with-kubernetes-and-monitoring)
+https://gatete.hashnode.dev/bird-api-written-in-golang-code-to-containerization-cicd-pipelines-deployed-aws-infra-with-kubernetes-and-monitoring
 
 ## Project Overview
 
