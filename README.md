@@ -38,12 +38,9 @@ Ensure you have the following tools installed on your machine:
 2. **Docker Setup**:
    - Build the Docker images:
      ```bash
-     docker build -t bird-api ./bird
-     docker build -t bird-image-api ./birdImage
-     ```
-   - Create a Docker network:
-     ```bash
-     docker network create bird-net
+    docker network create bird-net
+    docker run -d --name bird-image-api --network bird-net -p 4200:4200 bruno74t/bird-image-api
+    docker run -d --name bird-api --network bird-net -p 4201:4201 bruno74t/bird-api
      ```
 
 3. **Terraform AWS Infrastructure Setup**:
