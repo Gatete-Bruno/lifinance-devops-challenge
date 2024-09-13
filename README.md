@@ -10,8 +10,8 @@ This repository contains two APIs, `bird` and `birdImage`, which are Dockerized 
 ## Features
 
 - Dockerized APIs for easy container management.
-- Production-grade AWS infrastructure using Terraform.
-- Kubernetes manifests for running APIs.
+- AWS infrastructure using Terraform.
+- Kubernetes manifests for running Golang APIs.
 - Observability and scaling using Helm charts.
   
 ## Prerequisites
@@ -40,6 +40,12 @@ This repository contains two APIs, `bird` and `birdImage`, which are Dockerized 
      docker network create bird-net
      ```
 
+## Access Locally
+
+- Access the `bird API` at `http://localhost:4200`.
+- Access the `birdImage API` at `http://localhost:4201`.
+
+
 3. **Run Containers**:
     ```bash
     docker-compose up
@@ -53,21 +59,25 @@ This repository contains two APIs, `bird` and `birdImage`, which are Dockerized 
      terraform apply
      ```
 
-5. **Kubernetes Setup**:
-   - Deploy the APIs to your Kubernetes cluster using the provided manifests.
+5.  **Kubernetes Setup**:
+   - Navigate to K8s-Bootstrap and then ensure you have setup the ssh keys as required, 
+     ```bash
+    ansible-playbook -i hosts.init ping.yaml
+    ansible-playbook -i hosts.init setup-kubernete-cluster
+     ```
+
+
+6. **Kubernetes Setup**:
+   - Deploy the K8s manifests to your Kubernetes cluster using the provided manifests.
      ```bash
      kubectl apply -f k8s/
      ```
 
-## Usage
 
-- Access the `bird API` at `http://localhost:8080`.
-- Access the `birdImage API` at `http://localhost:8081`.
+For a Detailed Documentation of the above, please check out my blog.
 
-## Contributing
+https://gatete.hashnode.dev/bird-api-written-in-golang-code-to-containerization-cicd-pipelines-deployed-aws-infra-with-kubernetes-and-monitoring
 
-Contributions are welcome! Feel free to open an issue or submit a pull request.
 
-## License
 
-This project is licensed under the MIT License.
+
