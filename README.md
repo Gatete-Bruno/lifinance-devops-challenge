@@ -46,12 +46,7 @@ Ensure you have the following tools installed on your machine:
      docker network create bird-net
      ```
 
-3. **Run the Containers**:
-    ```bash
-    docker-compose up
-    ```
-
-4. **Terraform AWS Infrastructure Setup**:
+3. **Terraform AWS Infrastructure Setup**:
    - Navigate to the `terraform` directory and apply the configuration:
      ```bash
      cd terraform
@@ -59,14 +54,14 @@ Ensure you have the following tools installed on your machine:
      terraform apply
      ```
 
-5. **Kubernetes Cluster Setup**:
+4. **Kubernetes Cluster Setup**:
    - Set up your Kubernetes cluster using Ansible:
      ```bash
      ansible-playbook -i hosts.init ping.yaml
      ansible-playbook -i hosts.init setup-kubernete-cluster.yaml
      ```
 
-6. **Kubernetes Deployment**:
+5. **Kubernetes Deployment**:
    - Deploy the Kubernetes manifests:
      ```bash
      kubectl apply -f k8s/
