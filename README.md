@@ -1,37 +1,73 @@
-# Bird Application
+# Lifinance DevOps Challenge
 
-This is the bird Application! It gives us birds!!!
+This repository contains two APIs, `bird` and `birdImage`, which are Dockerized and deployed on AWS infrastructure. The project focuses on setting up production-grade infrastructure using Infrastructure as Code (IaC) and Kubernetes.
 
-The app is written in Golang and contains 2 APIs:
-- the bird API
-- the birdImage API
+## Project Overview
 
-When you run the application (figure it out), you will see the relationship between those 2 APIs.
+- **bird API**: Provides bird-related data.
+- **birdImage API**: Displays bird images that change with each refresh.
 
-# installation & how to run it
+## Features
 
-Find it
+- Dockerized APIs for easy container management.
+- Production-grade AWS infrastructure using Terraform.
+- Kubernetes manifests for running APIs.
+- Observability and scaling using Helm charts.
+  
+## Prerequisites
 
-# Challenge
+- **Docker**: Ensure Docker is installed on your local machine.
+- **Terraform**: For managing AWS infrastructure.
+- **AWS CLI**: Configure AWS credentials on your machine.
+- **kubectl**: For managing Kubernetes clusters.
+  
+## Setup and Installation
 
-How to:
-- fork the repository
-- work on the challenges
-- share your repository link with the recruitment team
+1. **Clone the repository**:
+    ```bash
+    git clone https://github.com/yourusername/lifinance-devops-challenge.git
+    cd lifinance-devops-challenge
+    ```
 
-Here are the challenges:
-- Install and run the app
-- Dockerize it (create dockerfile for each API)
-- Create an infra on AWS (VPC, SG, instances) using IaC
-- Install a small version of kubernetes on the instances (no EKS)
-- Build the manifests to run the 2 APIs on k8s 
-- Bonus points: observability, helm, scaling
+2. **Docker Setup**:
+   - Build the images:
+     ```bash
+     docker build -t bird-api ./bird
+     docker build -t bird-image-api ./birdImage
+     ```
+   - Create Docker network:
+     ```bash
+     docker network create bird-net
+     ```
 
-Rules:
-- Use security / container / k8s / cloud best practices
-- Change in the source code is possible
+3. **Run Containers**:
+    ```bash
+    docker-compose up
+    ```
 
-Evaluation criterias:
-- best practices
-- code organization
-- clarity & readability
+4. **Terraform AWS Infrastructure**:
+   - Navigate to the `terraform` directory and apply the configuration:
+     ```bash
+     cd terraform
+     terraform init
+     terraform apply
+     ```
+
+5. **Kubernetes Setup**:
+   - Deploy the APIs to your Kubernetes cluster using the provided manifests.
+     ```bash
+     kubectl apply -f k8s/
+     ```
+
+## Usage
+
+- Access the `bird API` at `http://localhost:8080`.
+- Access the `birdImage API` at `http://localhost:8081`.
+
+## Contributing
+
+Contributions are welcome! Feel free to open an issue or submit a pull request.
+
+## License
+
+This project is licensed under the MIT License.
