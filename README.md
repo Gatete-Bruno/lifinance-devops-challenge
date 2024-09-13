@@ -2,6 +2,10 @@
 
 This repository contains two APIs, `bird` and `birdImage`, which are Dockerized and deployed on AWS infrastructure. The project focuses on setting up production-grade infrastructure using Infrastructure as Code (IaC) and Kubernetes.
 
+For a Detailed Documentation of the above, please check out my blog.
+
+https://gatete.hashnode.dev/bird-api-written-in-golang-code-to-containerization-cicd-pipelines-deployed-aws-infra-with-kubernetes-and-monitoring
+
 ## Project Overview
 
 - **bird API**: Provides bird-related data.
@@ -59,8 +63,8 @@ This repository contains two APIs, `bird` and `birdImage`, which are Dockerized 
      terraform apply
      ```
 
-5.  **Kubernetes Setup**:
-   - Navigate to K8s-Bootstrap and then ensure you have setup the ssh keys as required, 
+5. **Kubernetes Setup**:
+   - Navigate to K8s-Bootstrap and then ensure you have setup the ssh keys as required
      ```bash
     ansible-playbook -i hosts.init ping.yaml
     ansible-playbook -i hosts.init setup-kubernete-cluster
@@ -72,12 +76,6 @@ This repository contains two APIs, `bird` and `birdImage`, which are Dockerized 
      ```bash
      kubectl apply -f k8s/
      ```
-
-
-For a Detailed Documentation of the above, please check out my blog.
-
-https://gatete.hashnode.dev/bird-api-written-in-golang-code-to-containerization-cicd-pipelines-deployed-aws-infra-with-kubernetes-and-monitoring
-
 
 
 
