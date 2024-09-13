@@ -1,0 +1,29 @@
+---
+- hosts: all
+  remote_user: kato
+  become: yes
+
+  tasks:
+    - name: Install required packages
+      yum:
+        name:
+          - htop
+          #  - byobu (optional)
+          - net-tools
+          - ebtables
+          - ipset
+          #  - open-iscsi (optional)
+          - conntrack
+          - socat
+        state: present
+
+    - name: Install Docker package
+      yum:
+        name: docker
+        state: present
+
+    - name: Start and enable Docker service
+      service:
+        name: docker
+        state: started
+        enabled: yes

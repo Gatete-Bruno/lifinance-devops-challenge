@@ -1,0 +1,16 @@
+---
+- hosts: master
+  remote_user: kato
+  become: yes
+  gather_facts: no
+  tasks:
+    - name: Copying configuration file to server
+      become: true
+      copy:
+        src: /Users/bruno/infra/cloud-devops/Kubeky-Bootstrapping-Ansible/config-sample.yaml #This path is subjective to your environment 
+        dest: ~/
+        owner: kato
+        group: root
+    - name: "Install k8 cluster"
+      shell: |
+              ./kk create cluster -f ~/config-sample.yaml -y

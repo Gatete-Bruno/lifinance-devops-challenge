@@ -15,41 +15,76 @@ resource "aws_security_group" "k8s_sg" {
     cidr_blocks = ["0.0.0.0/0"]  # Allow HTTP
   }
 
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]  # Allow HTTPS
+  }
+
+  # Kubernetes Control Plane (Port 6443)
+  ingress {
+    from_port   = 6443
+    to_port     = 6443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]  # Adjust to trusted IPs for API server access
+  }
+
+  # NodePort Services (Ports 30000-32767)
+  ingress {
+    from_port   = 30000
+    to_port     = 32767
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]  # Allow external access to NodePort services
+  }
+
+  # Longhorn Services (Ports 9500-9509)
+  ingress {
+    from_port   = 9500
+    to_port     = 9509
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]  # Allow external access to NodePort services
+  }
+
+ # Kubelet API Services (Ports 10250 - 10255)
+  ingress {
+    from_port   = 10250
+    to_port     = 10255
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]  # Allow external access to NodePort services
+  } 
+
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["0.0.0.0/0"]  # Allow all outbound traffic
+  }
+
+  tags = {
+    Name = "k8s-sg"
   }
 }
 
 resource "aws_instance" "k8s_nodes" {
-  ami           = "ami-0a5c3558529277641"  # Amazon Linux 2 AMI (64-bit x86)
+  ami           = "ami-0182f373e66f89c85"  # Ubuntu Server 22.04 LTS AMI
   instance_type = "t3.medium"
-  count         = 3  # Three EC2 nodes for Kubernetes cluster
+  count         = 3  # Create 3 EC2 instances for Kubernetes
 
-  vpc_security_group_ids = [aws_security_group.k8s_sg.id]  # Use security group ID here
-  subnet_id              = aws_subnet.public.id  # Ensure it uses the public subnet
+  key_name = "batman-key-pair"  # Replace with your actual key pair name
+
+  vpc_security_group_ids = [aws_security_group.k8s_sg.id]
+  subnet_id              = aws_subnet.public.id
 
   user_data = <<-EOF
     #!/bin/bash
-    # Install Docker
-    yum update -y
-    amazon-linux-extras install docker -y
-    service docker start
-    usermod -a -G docker ec2-user
-
-    # Install Kubernetes tools
-    curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
-    chmod +x ./kubectl
-    mv ./kubectl /usr/local/bin/kubectl
-
-    # Disable swap (required for Kubernetes)
-    swapoff -a
-
-    # Initialize the cluster (on master node)
-    if [ "${count.index}" == "0" ]; then
-      kubeadm init --pod-network-cidr=10.244.0.0/16
-    fi
+    apt-get update -y
+    apt-get install -y docker.io
+    systemctl start docker
+    usermod -aG docker $USER
   EOF
+
+  tags = {
+    Name = "k8s-node-${count.index}"
+  }
 }

@@ -1,0 +1,7 @@
+---
+- hosts: all
+  remote_user: kato  # Set the SSH user to 'kato'
+  tasks:
+    - name: Ping the hosts
+      ping:
+

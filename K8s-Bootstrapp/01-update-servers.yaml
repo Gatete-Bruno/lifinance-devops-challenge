@@ -1,0 +1,8 @@
+---
+- hosts: all
+  remote_user: kato
+  become: yes
+  tasks:
+    - name: "Update Repository cache"
+      yum:
+        update_cache: yes  # Update repository cache
