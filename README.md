@@ -2,9 +2,9 @@
 
 This repository contains two APIs, `bird` and `birdImage`, which are Dockerized and deployed on AWS infrastructure. The project focuses on setting up production-grade infrastructure using Infrastructure as Code (IaC) and Kubernetes.
 
-For a Detailed Documentation of the above, please check out my blog.
+For detailed documentation and a step-by-step guide, please check out the accompanying blog post:
 
-https://gatete.hashnode.dev/bird-api-written-in-golang-code-to-containerization-cicd-pipelines-deployed-aws-infra-with-kubernetes-and-monitoring
+[Read the Blog](https://gatete.hashnode.dev/bird-api-written-in-golang-code-to-containerization-cicd-pipelines-deployed-aws-infra-with-kubernetes-and-monitoring)
 
 ## Project Overview
 
@@ -14,17 +14,19 @@ https://gatete.hashnode.dev/bird-api-written-in-golang-code-to-containerization-
 ## Features
 
 - Dockerized APIs for easy container management.
-- AWS infrastructure using Terraform.
-- Kubernetes manifests for running Golang APIs.
+- AWS infrastructure setup using Terraform.
+- Kubernetes manifests for deploying Golang APIs.
 - Observability and scaling using Helm charts.
-  
+
 ## Prerequisites
 
-- **Docker**: Ensure Docker is installed on your local machine.
-- **Terraform**: For managing AWS infrastructure.
-- **AWS CLI**: Configure AWS credentials on your machine.
-- **kubectl**: For managing Kubernetes clusters.
-  
+Ensure you have the following tools installed on your machine:
+
+- **Docker**
+- **Terraform**
+- **AWS CLI**
+- **kubectl**
+
 ## Setup and Installation
 
 1. **Clone the repository**:
@@ -34,28 +36,22 @@ https://gatete.hashnode.dev/bird-api-written-in-golang-code-to-containerization-
     ```
 
 2. **Docker Setup**:
-   - Build the images:
+   - Build the Docker images:
      ```bash
      docker build -t bird-api ./bird
      docker build -t bird-image-api ./birdImage
      ```
-   - Create Docker network:
+   - Create a Docker network:
      ```bash
      docker network create bird-net
      ```
 
-## Access Locally
-
-- Access the `bird API` at `http://localhost:4200`.
-- Access the `birdImage API` at `http://localhost:4201`.
-
-
-3. **Run Containers**:
+3. **Run the Containers**:
     ```bash
     docker-compose up
     ```
 
-4. **Terraform AWS Infrastructure**:
+4. **Terraform AWS Infrastructure Setup**:
    - Navigate to the `terraform` directory and apply the configuration:
      ```bash
      cd terraform
@@ -63,19 +59,20 @@ https://gatete.hashnode.dev/bird-api-written-in-golang-code-to-containerization-
      terraform apply
      ```
 
-5. **Kubernetes Setup**:
-   - Navigate to K8s-Bootstrap and then ensure you have setup the ssh keys as required
+5. **Kubernetes Cluster Setup**:
+   - Set up your Kubernetes cluster using Ansible:
      ```bash
-    ansible-playbook -i hosts.init ping.yaml
-    ansible-playbook -i hosts.init setup-kubernete-cluster
+     ansible-playbook -i hosts.init ping.yaml
+     ansible-playbook -i hosts.init setup-kubernete-cluster.yaml
      ```
 
-
 6. **Kubernetes Deployment**:
-   - Deploy the K8s manifests to your Kubernetes cluster using the provided manifests.
+   - Deploy the Kubernetes manifests:
      ```bash
      kubectl apply -f k8s/
      ```
 
+## Access Locally
 
-
+- Access the `bird API` at `http://localhost:4200`.
+- Access the `birdImage API` at `http://localhost:4201`.
