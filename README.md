@@ -71,7 +71,7 @@ https://gatete.hashnode.dev/bird-api-written-in-golang-code-to-containerization-
      ```
 
 
-6. **Kubernetes Setup**:
+6. **Kubernetes Deployment**:
    - Deploy the K8s manifests to your Kubernetes cluster using the provided manifests.
      ```bash
      kubectl apply -f k8s/
