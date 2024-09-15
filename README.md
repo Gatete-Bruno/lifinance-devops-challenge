@@ -72,7 +72,7 @@ Ensure you have the following tools installed on your machine:
      kubectl apply -f k8s/
      ```
 
-## Access Locally
+## Access Publically
 
-- Access the `bird API` at `http://localhost:4200`.
-- Access the `birdImage API` at `http://localhost:4201`.
+- Access the `bird API` at `http://3.88.157.155:32493/`.
+- Access the `birdImage API` at `http://3.88.157.155:31708/`.
